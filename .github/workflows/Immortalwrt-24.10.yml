@@ -157,8 +157,8 @@ jobs:
       uses: unifreq/openwrt_packit@master
       env:
         WHOAMI: ham
-        OPENWRT_ARMVIRT: openwrt-armvirt/*.tar.gz
-        PACKAGE_SOC: s905d
+        OPENWRT_ARMVIRT: openwrt-x86/*.tar.gz
+        PACKAGE_SOC: x86
         KERNEL_AUTO_LATEST: true
        # KERNEL_REPO_URL: 自定义某个特定内核
         KERNEL_REPO_URL: breakingbadboy/OpenWrt
@@ -171,8 +171,8 @@ jobs:
     - name: 发布固件
       uses: ncipollo/release-action@v1
       with:
-        name: OpenWrt-N1 → ${{ env.DATE }}
-        tag: N1-24.10_${{ env.tag_name }}
+        name: OpenWrt-x86 → ${{ env.DATE }}
+        tag: x86-24.10_${{ env.tag_name }}
         artifacts: /workdir/upload/openwrt*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -183,7 +183,7 @@ jobs:
               分支：${{ env.REPO_BRANCH }}
               注意：默认旁路由模式
               
-              网关：192.168.123.2
+              网关：192.168.99.1
               用户名：root
               密码：password
 
