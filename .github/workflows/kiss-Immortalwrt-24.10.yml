@@ -1,4 +1,4 @@
-name: Immortalwrt-24.10
+name: kiss-Immortalwrt-24.10
 
 on:
   repository_dispatch:
@@ -11,7 +11,7 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-24.10
   FEEDS_CONF: N1/Immortalwrt/TL-feeds.conf.default
-  CONFIG_FILE: N1/Immortalwrt/TL.config
+  CONFIG_FILE: N1/Immortalwrt/kiss.config
   DIY_P1_SH: N1/Immortalwrt/diy-part1.sh
   DIY_P2_SH: N1/Immortalwrt/diy-part2.sh
   FILES: N1/Immortalwrt/files
@@ -67,7 +67,7 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo -E apt-get -qq update -y
-        sudo -E apt-get -qq install -y $(curl -fsSL https://raw.githubusercontent.com/goodmen001/My-OpenWrt/refs/heads/main/N1/Immortalwrt/2410)
+        sudo -E apt-get -qq install -y $(curl -fsSL https://raw.githubusercontent.com/woni928/My-OpenWrt/refs/heads/main/N1/Immortalwrt/2410)
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -157,8 +157,8 @@ jobs:
       uses: unifreq/openwrt_packit@master
       env:
         WHOAMI: ham
-        OPENWRT_ARMVIRT: openwrt-x86/*.tar.gz
-        PACKAGE_SOC: x86
+        OPENWRT_ARMVIRT: openwrt-armvirt/*.tar.gz
+        PACKAGE_SOC: s905d
         KERNEL_AUTO_LATEST: true
        # KERNEL_REPO_URL: 自定义某个特定内核
         KERNEL_REPO_URL: breakingbadboy/OpenWrt
@@ -171,8 +171,8 @@ jobs:
     - name: 发布固件
       uses: ncipollo/release-action@v1
       with:
-        name: OpenWrt-x86 → ${{ env.DATE }}
-        tag: x86-24.10_${{ env.tag_name }}
+        name: OpenWrt-N1 → ${{ env.DATE }}
+        tag: N1-24.10_${{ env.tag_name }}
         artifacts: /workdir/upload/openwrt*
         allowUpdates: true
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -181,17 +181,15 @@ jobs:
               
               源码：${{ env.REPO_URL }}
               分支：${{ env.REPO_BRANCH }}
-              注意：默认旁路由模式且没有开启DHCP
+              注意：默认旁路由模式
               
-              网关：192.168.99.1
+              网关：192.168.123.2
               用户名：root
               密码：password
 
               更新说明：
-              2025-0318：修复几处错误的翻译，添加nikki插件，同步上游的更新。
-              2025-0323：同步上游的更新。添加adguardhome插件。尝试修复nikki无法代理的问题。
-              2025-0325：更新passwall2配置文件。
-              2025-0408：同步上游的更新。
+              2025-0323：更换kiss的config文件看能否修复nikki的问题。
+              2025-0324：尝试添加openclash samba4 softethervpn zerotier插件。
 
     - name: 删除运行记录
       uses: Mattraks/delete-workflow-runs@main
